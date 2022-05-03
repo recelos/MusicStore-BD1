@@ -1,4 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
+using MusicStore.Models;
 
 namespace MusicStore.Controllers
 {
@@ -47,5 +49,21 @@ namespace MusicStore.Controllers
             Connection.Close();
             return output;
         }
+        /// <summary>
+        /// Returns user's data in form of UserModel based on given ID.
+        /// </summary>
+        /// <param name="userId">Id of the user who is being returned</param>
+        /// <returns>Searched user</returns>
+        public UserModel GetUser(int userId)
+        {
+            var query = $"SELECT * FROM Users WHERE Id={userId};";
+            Connection.Open();
+            var cmd = new SqlCommand(query, Connection);
+            var reader = cmd.ExecuteReader();
+            var output = new UserModel(reader);
+            Connection.Close();
+            return output;
+        }
+
     }
 }

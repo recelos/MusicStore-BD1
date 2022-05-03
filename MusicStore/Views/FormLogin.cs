@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using MusicStore.Controllers;
+using MusicStore.Models;
 using MusicStore.Views;
 
 namespace MusicStore
@@ -35,8 +36,8 @@ namespace MusicStore
 
             if (correctPassword)
             {
-                var isEmployee = _controller.CheckForEmployee((int)userId);
-                MessageBox.Show(isEmployee ? "Employee" : "User", "nice");
+                var user = _controller.GetUser((int) userId);
+                MessageBox.Show(user.IsEmployee ? "Employee" : "user", "nice");
             }
             else
             {
