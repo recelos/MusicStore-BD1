@@ -17,23 +17,28 @@ namespace MusicStore.Models
         public string LastName { get; }
         public bool IsEmployee { get; }
         public DateTime CreatedAt { get; }
+        public string FullName => FirstName + " " + LastName;
 
         public UserModel(IDataReader reader)
         {
             if (!reader.Read())
                 throw new Exception();
-            Id = (int)reader[0];
+            Id = (int) reader[0];
             Username = reader[1].ToString();
             Password = reader[2].ToString();
             FirstName = reader[4].ToString();
             LastName = reader[5].ToString();
             IsEmployee = (bool)reader[6];
-
-            var dateToParse = reader[3].ToString(); 
-
+            try
+            {
+                CreatedAt = DateTime.Parse(reader[3].ToString());
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+                CreatedAt = DateTime.Now;
+            }
             reader.Close();
-            CreatedAt = DateTime.Parse(dateToParse);
         }
-
     }
 }

@@ -11,7 +11,7 @@ namespace MusicStore.Controllers
         /// </summary>
         /// <param name="username">Username which id is being searched</param>
         /// <returns>Id of user with given username or null if user doesn't exits</returns>
-        public int? FindUserId(string username)
+        public int? GetUserId(string username)
         {
             var query = $"SELECT Id FROM Users WHERE Username='{username}';";
             Connection.Open();
@@ -44,8 +44,7 @@ namespace MusicStore.Controllers
         {
             var query = $"SELECT IsEmployee FROM Users WHERE Id={userId}";
             Connection.Open();
-            var cmd = new SqlCommand(query, Connection);
-            var output = (bool)cmd.ExecuteScalar();
+            var output = (bool)new SqlCommand(query, Connection).ExecuteScalar();
             Connection.Close();
             return output;
         }
@@ -59,11 +58,9 @@ namespace MusicStore.Controllers
             var query = $"SELECT * FROM Users WHERE Id={userId};";
             Connection.Open();
             var cmd = new SqlCommand(query, Connection);
-            var reader = cmd.ExecuteReader();
-            var output = new UserModel(reader);
+            var output = new UserModel(cmd.ExecuteReader());
             Connection.Close();
             return output;
         }
-
     }
 }

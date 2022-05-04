@@ -25,7 +25,7 @@ namespace MusicStore
         /// <param name="e"></param>
         private void loginButton_Click(object sender, EventArgs e)
         {
-            var userId = _controller.FindUserId(usernameTextBox.Text);
+            var userId = _controller.GetUserId(usernameTextBox.Text);
             if (userId == null)
             {
                 MessageBox.Show("Wrong username or password","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -37,7 +37,20 @@ namespace MusicStore
             if (correctPassword)
             {
                 var user = _controller.GetUser((int) userId);
-                MessageBox.Show(user.IsEmployee ? "Employee" : "user", "nice");
+
+                if (!user.IsEmployee)
+                {
+                    this.Hide();
+                    var userForm = new FormUser(user);
+                    userForm.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Employee", "nice");
+
+                }
+                Close();
             }
             else
             {
