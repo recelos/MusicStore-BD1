@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Controllers
 {
-    class UserController : Controller
+    public class UserController : Controller
     {
         public DataTable GetInstruments(string name, string brandName, string typeName, string conditionName)
         {
@@ -21,23 +21,21 @@ namespace MusicStore.Controllers
                         "JOIN Conditions ON Instruments.ConditionId = Conditions.Id " + 
                         $"WHERE Instruments.Name LIKE '%{name}%' AND Brands.Name LIKE '%{brandName}%' AND Types.Name LIKE '%{typeName}%' AND Conditions.Name LIKE '%{conditionName}%';";
             var adapter = new SqlDataAdapter(query, Connection);
-            var dataTable = new DataTable();
-             adapter.Fill(dataTable);
-            return dataTable;
+            var output = new DataTable();
+            adapter.Fill(output);
+            return output;
         }
 
-        public IList<string> GetAllValuesFromColumn(string columnName)
+        public IList<string> GetAllValuesFromTable(string tableName)
         {
             var query = "SELECT Name " +
-                        $"FROM {columnName};";
+                        $"FROM {tableName};";
             Connection.Open();
 
             var cmd = new SqlCommand(query, Connection);
             var reader = cmd.ExecuteReader();
 
-            IList<string> output = new List<string>();
-
-            output.Add("");
+            IList<string> output = new List<string> { "" };
             while (reader.Read())
                 output.Add(reader.GetString(0));
             Connection.Close();

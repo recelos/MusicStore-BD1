@@ -6,10 +6,11 @@ namespace MusicStore.Views
 {
     public partial class FormCreateUser : Form
     {
-        private readonly CreateUserController _controller = new();
+        private readonly CreateUserController _controller;
         public FormCreateUser()
         {
             InitializeComponent();
+            _controller = ControllerFactory.CreateCreateUserController();
         }
         /// <summary>
         /// It will try to create a new user and insert them into the database. <br/>

@@ -43,9 +43,9 @@ namespace MusicStore.Views
         }
         private void SetupComboBoxes()
         {
-            brandsComboBox.DataSource = _controller.GetAllValuesFromColumn("Brands");
-            conditionsComboBox.DataSource = _controller.GetAllValuesFromColumn("Conditions");
-            typesComboBox.DataSource = _controller.GetAllValuesFromColumn("Types");
+            brandsComboBox.DataSource = _controller.GetAllValuesFromTable("Brands");
+            conditionsComboBox.DataSource = _controller.GetAllValuesFromTable("Conditions");
+            typesComboBox.DataSource = _controller.GetAllValuesFromTable("Types");
         }
 
         private void RefreshDataGrid()

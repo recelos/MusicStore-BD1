@@ -47,7 +47,10 @@ namespace MusicStore
                 }
                 else
                 {
-                    MessageBox.Show("Employee", "nice");
+                    this.Hide();
+                    var userForm = new FormEmployee(user);
+                    userForm.ShowDialog();
+                    this.Close();
 
                 }
                 Close();
