@@ -40,6 +40,8 @@ namespace MusicStore.Views
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.instrumentsDataGridView = new System.Windows.Forms.DataGridView();
             this.userCredentialsLabel = new System.Windows.Forms.Label();
+            this.addToBucketButton = new System.Windows.Forms.Button();
+            this.showBucketButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.instrumentsDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -133,9 +135,12 @@ namespace MusicStore.Views
             // 
             // instrumentsDataGridView
             // 
+            this.instrumentsDataGridView.AllowUserToAddRows = false;
+            this.instrumentsDataGridView.AllowUserToDeleteRows = false;
             this.instrumentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.instrumentsDataGridView.Location = new System.Drawing.Point(3, 67);
             this.instrumentsDataGridView.Name = "instrumentsDataGridView";
+            this.instrumentsDataGridView.ReadOnly = true;
             this.instrumentsDataGridView.RowTemplate.Height = 25;
             this.instrumentsDataGridView.Size = new System.Drawing.Size(966, 463);
             this.instrumentsDataGridView.TabIndex = 0;
@@ -148,13 +153,36 @@ namespace MusicStore.Views
             this.userCredentialsLabel.Size = new System.Drawing.Size(0, 15);
             this.userCredentialsLabel.TabIndex = 1;
             // 
+            // addToBucketButton
+            // 
+            this.addToBucketButton.Location = new System.Drawing.Point(30, 108);
+            this.addToBucketButton.Name = "addToBucketButton";
+            this.addToBucketButton.Size = new System.Drawing.Size(133, 26);
+            this.addToBucketButton.TabIndex = 15;
+            this.addToBucketButton.Text = "Add to bucket";
+            this.addToBucketButton.UseVisualStyleBackColor = true;
+            this.addToBucketButton.Click += new System.EventHandler(this.addToBucketButton_Click);
+            // 
+            // showBucketButton
+            // 
+            this.showBucketButton.Location = new System.Drawing.Point(30, 176);
+            this.showBucketButton.Name = "showBucketButton";
+            this.showBucketButton.Size = new System.Drawing.Size(133, 26);
+            this.showBucketButton.TabIndex = 16;
+            this.showBucketButton.Text = "Show bucket";
+            this.showBucketButton.UseVisualStyleBackColor = true;
+            this.showBucketButton.Click += new System.EventHandler(this.showBucketButton_Click);
+            // 
             // FormUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1191, 562);
+            this.Controls.Add(this.showBucketButton);
+            this.Controls.Add(this.addToBucketButton);
             this.Controls.Add(this.userCredentialsLabel);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormUser";
             this.Text = "Music Store (user)";
             this.panel1.ResumeLayout(false);
@@ -178,5 +206,7 @@ namespace MusicStore.Views
         private System.Windows.Forms.Label typesLabel;
         private System.Windows.Forms.ComboBox typesComboBox;
         private System.Windows.Forms.Label brandsLabel;
+        private System.Windows.Forms.Button addToBucketButton;
+        private System.Windows.Forms.Button showBucketButton;
     }
 }

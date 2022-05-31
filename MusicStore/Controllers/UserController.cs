@@ -13,7 +13,7 @@ namespace MusicStore.Controllers
     {
         public DataTable GetInstruments(string name, string brandName, string typeName, string conditionName)
         {
-            var query = "SELECT Instruments.Name, Brands.Name AS Brand, Types.Name AS Type, Price, Countries.CountryCode AS Country, Conditions.Name AS Condition " +
+            var query = "SELECT Instruments.Name, Brands.Name AS Brand, Types.Name AS Type, Price, Countries.Name AS Country, Conditions.Name AS Condition " +
                         "FROM Instruments " +
                         "JOIN Brands ON Instruments.BrandId = Brands.Id " +
                         "JOIN Types ON Instruments.TypeId = Types.Id " +
@@ -26,20 +26,77 @@ namespace MusicStore.Controllers
             return output;
         }
 
-        public IList<string> GetAllValuesFromTable(string tableName)
+        public bool CreateBucketForUser(int userId)
         {
-            var query = "SELECT Name " +
-                        $"FROM {tableName};";
+            var query = $"IF(SELECT Buckets.Id FROM Buckets JOIN Users ON Buckets.UserId = Users.Id WHERE Users.Id = {userId} )" +
+                "INSERT INTO Buckets(UserId) " +
+                $"VALUES({userId});";
+
             Connection.Open();
 
             var cmd = new SqlCommand(query, Connection);
-            var reader = cmd.ExecuteReader();
-
-            IList<string> output = new List<string> { "" };
-            while (reader.Read())
-                output.Add(reader.GetString(0));
+            var success = true;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                success = false;
+            }
             Connection.Close();
-            return output;
+            return success;
         }
+
+        public String GetInstrumentId(string name, string brandName, string typeName, string conditionName)
+        {
+            var query = "SELECT Instruments.Id " +
+                        "FROM Instruments " +
+                        "JOIN Brands ON Instruments.BrandId = Brands.Id " +
+                        "JOIN Types ON Instruments.TypeId = Types.Id " +
+                        "JOIN Countries ON Instruments.CountryId = Countries.Id " +
+                        "JOIN Conditions ON Instruments.ConditionId = Conditions.Id " +
+                        $"WHERE Instruments.Name LIKE '%{name}%' AND Brands.Name LIKE '%{brandName}%' AND Types.Name LIKE '%{typeName}%' AND Conditions.Name LIKE '%{conditionName}%';";
+            
+            SqlCommand SelectCommand = new SqlCommand(query, Connection);
+            SqlDataReader myreader;
+            Connection.Open();
+
+            myreader = SelectCommand.ExecuteReader();
+
+            String Id = null;
+            while (myreader.Read())
+            {
+                Id = myreader[0].ToString();
+            }
+            Connection.Close();
+            return Id;
+
+        }
+
+        public bool AddSelectedInstrumentToBucket(int userId, int instrumentId)
+        {
+            var query = $"IF (SELECT IsReserved FROM Instruments WHERE Id = {instrumentId}) = 0 " +
+                        "INSERT INTO BucketItems(BucketId, InstrumentId) " +
+                        $"VALUES((SELECT Id FROM Buckets WHERE UserId = {userId}), {instrumentId}) " +
+                        $"UPDATE Instruments SET IsReserved = 1, ReservationDate = GETDATE() WHERE Id = {instrumentId}; ";
+
+            Connection.Open();
+
+            var cmd = new SqlCommand(query, Connection);
+            var success = true;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                success = false;
+            }
+            Connection.Close();
+            return success;
+        }
+
+        
     }
 }

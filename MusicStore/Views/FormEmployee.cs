@@ -29,5 +29,11 @@ namespace MusicStore.Views
 
 
         }
+
+        private void buttonOrder_Click(object sender, EventArgs e)
+        {
+            var formOrder = new FormOrders();
+            formOrder.ShowDialog(this);
+        }
     }
 }
