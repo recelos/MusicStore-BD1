@@ -67,6 +67,7 @@ namespace MusicStore.Views
             this.updateButton.TabIndex = 2;
             this.updateButton.Text = "Update product";
             this.updateButton.UseVisualStyleBackColor = true;
+            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
             // 
             // addButton
             // 

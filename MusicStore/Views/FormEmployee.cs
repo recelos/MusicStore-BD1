@@ -54,5 +54,13 @@ namespace MusicStore.Views
             var dataTable = _controller.GetInstruments();
             instrumentsDataGridView.DataSource = dataTable;
         }
+
+        private void updateButton_Click(object sender, EventArgs e)
+        {
+            //var selected = instrumentsDataGridView.SelectedRows[0];
+            //var formUpdateProd = new FormUpdateProd(int.Parse(selected.Cells[0].ToString()),selected.Cells[1].ToString(), selected.Cells[2].ToString(), selected.Cells[3].ToString(), selected.Cells[4].ToString(), selected.Cells[5].ToString(), selected.Cells[6].ToString());
+            //formUpdateProd.ShowDialog(this);
+            //RefreshDataGrid();
+        }
     }
 }

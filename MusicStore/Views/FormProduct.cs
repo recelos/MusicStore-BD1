@@ -27,12 +27,6 @@ namespace MusicStore.Views
 
         }
 
-        public FormProduct(InstrumentModel instrModel)
-        {
-            InitializeComponent();
-            Instrument = instrModel;
-        }
-
         private void confirmButton_Click(object sender, EventArgs e)
         {
             var brandId = _controller.GetValueId(brandComboBox.Text, "Brands");
