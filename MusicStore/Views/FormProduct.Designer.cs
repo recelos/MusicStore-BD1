@@ -88,6 +88,7 @@ namespace MusicStore.Views
             // 
             // brandComboBox
             // 
+            this.brandComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.brandComboBox.FormattingEnabled = true;
             this.brandComboBox.Location = new System.Drawing.Point(180, 152);
             this.brandComboBox.Name = "brandComboBox";
@@ -96,6 +97,7 @@ namespace MusicStore.Views
             // 
             // typeComboBox
             // 
+            this.typeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.typeComboBox.FormattingEnabled = true;
             this.typeComboBox.Location = new System.Drawing.Point(180, 213);
             this.typeComboBox.Name = "typeComboBox";
@@ -113,6 +115,7 @@ namespace MusicStore.Views
             // 
             // conditionComboBox
             // 
+            this.conditionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.conditionComboBox.FormattingEnabled = true;
             this.conditionComboBox.Location = new System.Drawing.Point(180, 275);
             this.conditionComboBox.Name = "conditionComboBox";
@@ -130,6 +133,7 @@ namespace MusicStore.Views
             // 
             // countryComboBox
             // 
+            this.countryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.countryComboBox.FormattingEnabled = true;
             this.countryComboBox.Location = new System.Drawing.Point(180, 339);
             this.countryComboBox.Name = "countryComboBox";
@@ -153,6 +157,7 @@ namespace MusicStore.Views
             this.confirmButton.TabIndex = 12;
             this.confirmButton.Text = "Confirm";
             this.confirmButton.UseVisualStyleBackColor = true;
+            this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
             // 
             // cancelButton
             // 
@@ -162,12 +167,13 @@ namespace MusicStore.Views
             this.cancelButton.TabIndex = 13;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // FormProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(599, 499);
+            this.ClientSize = new System.Drawing.Size(525, 482);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.confirmButton);
             this.Controls.Add(this.countryComboBox);

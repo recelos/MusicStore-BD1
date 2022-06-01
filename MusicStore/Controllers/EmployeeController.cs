@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -10,29 +11,37 @@ namespace MusicStore.Controllers
 {
     public class EmployeeController : Controller
     {
-        public bool AddProduct(InstrumentModel instrument)
+
+        public DataTable GetInstruments()
         {
-            var query = "INSERT INTO Instruments(Name, TypeId, BrandId, Price, IsReserved ,CountryId, ConditionId, CreateAt)" +
-                        $"VALUES ({instrument.Name}, {instrument.TypeId}, {instrument.BrandId} ,{instrument.Price}, 0, {instrument.CountryId}, {instrument.ConditionId}), GETDATE();";
+            var query =
+                "SELECT Instruments.Id ,Instruments.Name, Brands.Name AS Brand, Types.Name AS Type, Price, Countries.CountryCode AS Country, Conditions.Name AS Condition " +
+                "FROM Instruments " +
+                "JOIN Brands ON Instruments.BrandId = Brands.Id " +
+                "JOIN Types ON Instruments.TypeId = Types.Id " +
+                "JOIN Countries ON Instruments.CountryId = Countries.Id " +
+                "JOIN Conditions ON Instruments.ConditionId = Conditions.Id;"; 
+            var adapter = new SqlDataAdapter(query, Connection);
+            var output = new DataTable();
+            adapter.Fill(output);
+            return output;
+        }
+
+        public void DeleteProduct(int? productId)
+        {
+            if (productId == null)
+                return;
+            
+
+            var query = "DELETE FROM Instruments " +
+                        $"WHERE Id = {productId}";
 
             Connection.Open();
 
             var cmd = new SqlCommand(query, Connection);
-
-            var success = true;
-
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch
-            {
-                success = false;
-            }
-
-            return success;
+            cmd.ExecuteNonQuery();
+            Connection.Close();
         }
-
 
     }
 }
