@@ -28,7 +28,7 @@ namespace MusicStore.Controllers
 
         public bool CreateBucketForUser(int userId)
         {
-            var query = $"IF(SELECT Buckets.Id FROM Buckets JOIN Users ON Buckets.UserId = Users.Id WHERE Users.Id = {userId} )" +
+            var query = $"IF NOT EXISTS(SELECT Buckets.Id FROM Buckets JOIN Users ON Buckets.UserId = Users.Id WHERE Users.Id = {userId} )" +
                 "INSERT INTO Buckets(UserId) " +
                 $"VALUES({userId});";
 
@@ -48,7 +48,7 @@ namespace MusicStore.Controllers
             return success;
         }
 
-        public String GetInstrumentId(string name, string brandName, string typeName, string conditionName)
+        public string GetInstrumentId(string name, string brandName, string typeName, string conditionName)
         {
             var query = "SELECT Instruments.Id " +
                         "FROM Instruments " +
@@ -64,7 +64,7 @@ namespace MusicStore.Controllers
 
             myreader = SelectCommand.ExecuteReader();
 
-            String Id = null;
+            string Id = null;
             while (myreader.Read())
             {
                 Id = myreader[0].ToString();
@@ -78,8 +78,8 @@ namespace MusicStore.Controllers
         {
             var query = $"IF (SELECT IsReserved FROM Instruments WHERE Id = {instrumentId}) = 0 " +
                         "INSERT INTO BucketItems(BucketId, InstrumentId) " +
-                        $"VALUES((SELECT Id FROM Buckets WHERE UserId = {userId}), {instrumentId}) " +
-                        $"UPDATE Instruments SET IsReserved = 1, ReservationDate = GETDATE() WHERE Id = {instrumentId}; ";
+                        $"VALUES((SELECT Id FROM Buckets WHERE UserId = {userId}), {instrumentId})";
+
 
             Connection.Open();
 

@@ -15,7 +15,7 @@ namespace MusicStore.Controllers
         public DataTable GetInstruments()
         {
             var query =
-                "SELECT Instruments.Id ,Instruments.Name, Brands.Name AS Brand, Types.Name AS Type, Price, Countries.CountryCode AS Country, Conditions.Name AS Condition " +
+                "SELECT Instruments.Id ,Instruments.Name, Brands.Name AS Brand, Types.Name AS Type, Price, Countries.CountryCode AS Country, Conditions.Name AS Condition, IsReserved " +
                 "FROM Instruments " +
                 "JOIN Brands ON Instruments.BrandId = Brands.Id " +
                 "JOIN Types ON Instruments.TypeId = Types.Id " +

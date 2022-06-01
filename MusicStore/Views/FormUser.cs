@@ -58,12 +58,12 @@ namespace MusicStore.Views
 
         private void addToBucketButton_Click(object sender, EventArgs e)
         {
-            Int32 userId = (Int32)_loggedInUser.Id;
-            String name = (string)instrumentsDataGridView.CurrentRow.Cells[0].Value;
-            String brand = (string)instrumentsDataGridView.CurrentRow.Cells[1].Value;
-            String type = (string)instrumentsDataGridView.CurrentRow.Cells[2].Value;
-            String condition = (string)instrumentsDataGridView.CurrentRow.Cells[5].Value;
-            Int32 instrumentId = Int32.Parse(_controller.GetInstrumentId(name, brand, type, condition));
+            var userId = _loggedInUser.Id;
+            var name = instrumentsDataGridView.CurrentRow.Cells[0].Value.ToString();
+            var brand = instrumentsDataGridView.CurrentRow.Cells[1].Value.ToString();
+            var type = instrumentsDataGridView.CurrentRow.Cells[2].Value.ToString();
+            var condition = instrumentsDataGridView.CurrentRow.Cells[5].Value.ToString();
+            var instrumentId = int.Parse(_controller.GetInstrumentId(name, brand, type, condition));
             _controller.AddSelectedInstrumentToBucket(userId, instrumentId);
             RefreshDataGrid();
         }
@@ -73,6 +73,7 @@ namespace MusicStore.Views
             var formBucket = new FormBucket(_loggedInUser);
             RefreshDataGrid();
             formBucket.ShowDialog(this);
+            RefreshDataGrid();
         }
 
         private void buttonRefresh_Click(object sender, EventArgs e)

@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConnectionString" xml:space="preserve">
-    <value>Server=LAPTOP-S2A0N94M\DEMUCHASQL;Database=MusicStore;Trusted_Connection=True;</value>
+    <value>Server=DESKTOP-B7T0E83;Database=MusicStore;Trusted_Connection=True;</value>
   </data>
 </root>

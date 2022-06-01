@@ -145,9 +145,8 @@ namespace MusicStore.Controllers
 
         public bool CreateOrder(int userId, int addressId)
         {
-            var query = $"IF NOT EXISTS(SELECT Orders.Id FROM Orders JOIN Users ON Users.Id = Orders.UserId WHERE Users.Id = {userId}) " +
-                "INSERT INTO Orders(UserId, IsCompleted, AddressId, CreatedAt) " +
-                $"VALUES({userId}, 0, {addressId}, GETDATE());";
+            var query = "INSERT INTO Orders(UserId, IsCompleted, AddressId, CreatedAt) " +
+                        $"VALUES({userId}, 0, {addressId}, GETDATE());";
 
             Connection.Open();
 
@@ -193,23 +192,27 @@ namespace MusicStore.Controllers
                 "END;";*/
 
             var query = "SET IDENTITY_INSERT OrderItems ON " +
-                "DROP TABLE IF EXISTS temp " +
-                "SELECT InstrumentId, Id INTO temp FROM " +
-                "(SELECT TOP 1 BucketItems.InstrumentId, Buckets.UserId FROM BucketItems " +
-                "JOIN Instruments ON " +
-                "BucketItems.InstrumentId = Instruments.Id " +
-                "JOIN Buckets ON " +
-                "Buckets.Id = BucketItems.BucketId " +
-                $"WHERE Buckets.UserId = {userId}) AS from_bucket " +
-                "JOIN " +
-                "(SELECT Orders.Id, Orders.UserId FROM Orders " +
-                $"WHERE Orders.UserId = {userId}) AS to_order " +
-                "ON from_bucket.UserId = to_order.UserId; " +
-                "INSERT INTO OrderItems(OrderId, InstrumentId) " +
-                "VALUES((SELECT temp.Id FROM temp), (SELECT temp.InstrumentId FROM temp)); " +
-                "DELETE FROM BucketItems " +
-                "WHERE InstrumentId = (SELECT temp.InstrumentId FROM temp); " +
-                "DROP TABLE temp;";
+                        "DROP TABLE IF EXISTS temp " +
+                        "SELECT InstrumentId, Id INTO temp FROM " +
+                        "(SELECT TOP 1 BucketItems.InstrumentId, Buckets.UserId FROM BucketItems " +
+                        "JOIN Instruments ON " +
+                        "BucketItems.InstrumentId = Instruments.Id " +
+                        "JOIN Buckets ON " +
+                        "Buckets.Id = BucketItems.BucketId " +
+                        $"WHERE Buckets.UserId = {userId}) AS from_bucket " +
+                        "JOIN " +
+                        "(SELECT Orders.Id, Orders.UserId FROM Orders " +
+                        $"WHERE Orders.UserId = {userId}) AS to_order " +
+                        "ON from_bucket.UserId = to_order.UserId; " +
+                        "INSERT INTO OrderItems(OrderId, InstrumentId) " +
+                        "VALUES((SELECT temp.Id FROM temp), (SELECT temp.InstrumentId FROM temp)); " +
+                        "DELETE FROM BucketItems " +
+                        "WHERE InstrumentId = (SELECT temp.InstrumentId FROM temp) " +
+                        "UPDATE Instruments SET IsReserved = 1, ReservationDate = GETDATE() WHERE Id = (SELECT temp.InstrumentId FROM temp) " +
+                        "DROP TABLE temp;";
+
+
+
 
             Connection.Open();
 
