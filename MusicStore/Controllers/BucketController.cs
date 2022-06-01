@@ -192,7 +192,8 @@ namespace MusicStore.Controllers
                 "SET @i = @i - 1 " +
                 "END;";*/
 
-            var query = "DROP TABLE IF EXISTS temp " +
+            var query = "SET IDENTITY_INSERT OrderItems ON " +
+                "DROP TABLE IF EXISTS temp " +
                 "SELECT InstrumentId, Id INTO temp FROM " +
                 "(SELECT TOP 1 BucketItems.InstrumentId, Buckets.UserId FROM BucketItems " +
                 "JOIN Instruments ON " +

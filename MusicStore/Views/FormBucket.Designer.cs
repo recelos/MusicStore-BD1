@@ -42,19 +42,21 @@ namespace MusicStore.Views
             this.bucketDataGridView.AllowUserToDeleteRows = false;
             this.bucketDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bucketDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.bucketDataGridView.Location = new System.Drawing.Point(12, 44);
+            this.bucketDataGridView.Location = new System.Drawing.Point(14, 59);
+            this.bucketDataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bucketDataGridView.Name = "bucketDataGridView";
             this.bucketDataGridView.ReadOnly = true;
             this.bucketDataGridView.RowHeadersWidth = 51;
             this.bucketDataGridView.RowTemplate.Height = 25;
-            this.bucketDataGridView.Size = new System.Drawing.Size(769, 276);
+            this.bucketDataGridView.Size = new System.Drawing.Size(879, 368);
             this.bucketDataGridView.TabIndex = 17;
             // 
             // orderButton
             // 
-            this.orderButton.Location = new System.Drawing.Point(65, 363);
+            this.orderButton.Location = new System.Drawing.Point(74, 484);
+            this.orderButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.orderButton.Name = "orderButton";
-            this.orderButton.Size = new System.Drawing.Size(133, 26);
+            this.orderButton.Size = new System.Drawing.Size(152, 35);
             this.orderButton.TabIndex = 18;
             this.orderButton.Text = "Order";
             this.orderButton.UseVisualStyleBackColor = true;
@@ -62,9 +64,10 @@ namespace MusicStore.Views
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(325, 363);
+            this.removeButton.Location = new System.Drawing.Point(374, 484);
+            this.removeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(133, 26);
+            this.removeButton.Size = new System.Drawing.Size(166, 35);
             this.removeButton.TabIndex = 19;
             this.removeButton.Text = "Remove from bucket";
             this.removeButton.UseVisualStyleBackColor = true;
@@ -72,9 +75,10 @@ namespace MusicStore.Views
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(577, 363);
+            this.cancelButton.Location = new System.Drawing.Point(659, 484);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(133, 26);
+            this.cancelButton.Size = new System.Drawing.Size(152, 35);
             this.cancelButton.TabIndex = 20;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -82,13 +86,14 @@ namespace MusicStore.Views
             // 
             // FormBucket
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(914, 600);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.orderButton);
             this.Controls.Add(this.bucketDataGridView);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormBucket";
             this.Text = "FormBucket";
             ((System.ComponentModel.ISupportInitialize)(this.bucketDataGridView)).EndInit();

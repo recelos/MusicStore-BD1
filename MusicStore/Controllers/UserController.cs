@@ -19,7 +19,7 @@ namespace MusicStore.Controllers
                         "JOIN Types ON Instruments.TypeId = Types.Id " +
                         "JOIN Countries ON Instruments.CountryId = Countries.Id " +
                         "JOIN Conditions ON Instruments.ConditionId = Conditions.Id " + 
-                        $"WHERE Instruments.Name LIKE '%{name}%' AND Brands.Name LIKE '%{brandName}%' AND Types.Name LIKE '%{typeName}%' AND Conditions.Name LIKE '%{conditionName}%';";
+                        $"WHERE Instruments.Name LIKE '%{name}%' AND Brands.Name LIKE '%{brandName}%' AND Types.Name LIKE '%{typeName}%' AND Conditions.Name LIKE '%{conditionName}%' AND Instruments.IsReserved = 0;";
             var adapter = new SqlDataAdapter(query, Connection);
             var output = new DataTable();
             adapter.Fill(output);

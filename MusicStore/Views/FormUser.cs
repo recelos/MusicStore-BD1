@@ -71,7 +71,13 @@ namespace MusicStore.Views
         private void showBucketButton_Click(object sender, EventArgs e)
         {
             var formBucket = new FormBucket(_loggedInUser);
+            RefreshDataGrid();
             formBucket.ShowDialog(this);
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshDataGrid();
         }
     }
 }
