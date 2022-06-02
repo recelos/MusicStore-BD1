@@ -49,15 +49,16 @@ namespace MusicStore.Views
             typesComboBox.DataSource = _controller.GetAllValuesFromTable("Types");
         }
 
-        private void RefreshDataGrid()
-        {
-            var dataTable = _controller.GetInstruments(searchTextBox.Text, brandsComboBox.Text,
+        private void RefreshDataGrid() => instrumentsDataGridView.DataSource = _controller.GetInstruments(searchTextBox.Text, brandsComboBox.Text,
                 typesComboBox.Text, conditionsComboBox.Text);
-            instrumentsDataGridView.DataSource = dataTable;
-        }
 
         private void addToBucketButton_Click(object sender, EventArgs e)
         {
+
+            if (instrumentsDataGridView.CurrentRow == null || instrumentsDataGridView.CurrentRow.Index > instrumentsDataGridView.RowCount)
+                return;
+            
+
             var userId = _loggedInUser.Id;
             var name = instrumentsDataGridView.CurrentRow.Cells[0].Value.ToString();
             var brand = instrumentsDataGridView.CurrentRow.Cells[1].Value.ToString();
@@ -76,9 +77,5 @@ namespace MusicStore.Views
             RefreshDataGrid();
         }
 
-        private void buttonRefresh_Click(object sender, EventArgs e)
-        {
-            RefreshDataGrid();
-        }
     }
 }

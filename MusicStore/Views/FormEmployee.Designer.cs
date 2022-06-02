@@ -31,53 +31,42 @@ namespace MusicStore.Views
         {
             this.instrumentsDataGridView = new System.Windows.Forms.DataGridView();
             this.addButton = new System.Windows.Forms.Button();
-            this.updateButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ordersButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.instrumentsDataGridView)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // instrumentsDataGridView
             // 
-            this.instrumentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.instrumentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.instrumentsDataGridView.Location = new System.Drawing.Point(70, 120);
             this.instrumentsDataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.instrumentsDataGridView.MultiSelect = false;
             this.instrumentsDataGridView.Name = "instrumentsDataGridView";
             this.instrumentsDataGridView.ReadOnly = true;
             this.instrumentsDataGridView.RowTemplate.Height = 25;
             this.instrumentsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.instrumentsDataGridView.Size = new System.Drawing.Size(845, 347);
             this.instrumentsDataGridView.TabIndex = 0;
-            this.instrumentsDataGridView.SelectionChanged += new System.EventHandler(this.instrumentsDataGridView_SelectionChanged);
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(151, 47);
+            this.addButton.Location = new System.Drawing.Point(232, 47);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(127, 24);
+            this.addButton.Size = new System.Drawing.Size(155, 48);
             this.addButton.TabIndex = 1;
             this.addButton.Text = "Add product";
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // updateButton
-            // 
-            this.updateButton.Location = new System.Drawing.Point(386, 47);
-            this.updateButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.updateButton.Name = "updateButton";
-            this.updateButton.Size = new System.Drawing.Size(121, 24);
-            this.updateButton.TabIndex = 2;
-            this.updateButton.Text = "Update product";
-            this.updateButton.UseVisualStyleBackColor = true;
-            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
-            // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(602, 47);
+            this.deleteButton.Location = new System.Drawing.Point(620, 47);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(121, 24);
+            this.deleteButton.Size = new System.Drawing.Size(155, 48);
             this.deleteButton.TabIndex = 3;
             this.deleteButton.Text = "Delete product";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -86,7 +75,6 @@ namespace MusicStore.Views
             // panel1
             // 
             this.panel1.Controls.Add(this.deleteButton);
-            this.panel1.Controls.Add(this.updateButton);
             this.panel1.Controls.Add(this.addButton);
             this.panel1.Controls.Add(this.instrumentsDataGridView);
             this.panel1.Location = new System.Drawing.Point(260, 65);
@@ -94,14 +82,25 @@ namespace MusicStore.Views
             this.panel1.Size = new System.Drawing.Size(972, 538);
             this.panel1.TabIndex = 1;
             // 
+            // ordersButton
+            // 
+            this.ordersButton.Location = new System.Drawing.Point(59, 185);
+            this.ordersButton.Name = "ordersButton";
+            this.ordersButton.Size = new System.Drawing.Size(127, 274);
+            this.ordersButton.TabIndex = 4;
+            this.ordersButton.Text = "Orders";
+            this.ordersButton.UseVisualStyleBackColor = true;
+            this.ordersButton.Click += new System.EventHandler(this.ordersButton_Click);
+            // 
             // FormEmployee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1259, 589);
+            this.Controls.Add(this.ordersButton);
             this.Controls.Add(this.panel1);
             this.Name = "FormEmployee";
-            this.Text = "FormEmployee";
+            this.Text = "Music Store (employee)";
             ((System.ComponentModel.ISupportInitialize)(this.instrumentsDataGridView)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -112,8 +111,8 @@ namespace MusicStore.Views
         private System.Windows.Forms.Button buttonOrder;
         private System.Windows.Forms.DataGridView instrumentsDataGridView;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button ordersButton;
     }
 }

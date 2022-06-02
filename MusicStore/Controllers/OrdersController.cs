@@ -32,7 +32,7 @@ namespace MusicStore.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool toggleIsCompleted(int id)
+        public bool toggleIsCompleted(Int32 id)
         {
             var query = "UPDATE Orders " +
                         "SET IsCompleted = ~IsCompleted " +

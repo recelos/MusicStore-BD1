@@ -31,35 +31,42 @@ namespace MusicStore.Views
 
         private void orderButton_Click(object sender, EventArgs e)
         {
+            if (bucketDataGridView.RowCount == 0)
+                return;
+
             var addressForm = new AddressForm();
             var result = addressForm.ShowDialog(this);
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
-                Int32 countryId = Int32.Parse(_controller.GetCountryId(addressForm.country));
+                var countryId = int.Parse(_controller.GetCountryId(addressForm.country));
                 _controller.CreateAddress(countryId, addressForm.city, addressForm.street, addressForm.postalCode, addressForm.voivodeship);
-                Int32 addressId = Int32.Parse(_controller.GetAdressId(countryId, addressForm.city, addressForm.street, addressForm.postalCode, addressForm.voivodeship));
-                _controller.CreateOrder(_loggedInUser.Id, addressId);
-                for(int i = 0; i < 2; i++)
-                _controller.AddProductsFromBucketToOrder(_loggedInUser.Id);
-                this.Close();
+                var addressId = int.Parse(_controller.GetAdressId(countryId, addressForm.city, addressForm.street, addressForm.postalCode, addressForm.voivodeship));
+                var orderId = _controller.CreateOrder(_loggedInUser.Id, addressId);
+                _controller.AddProductsFromBucketToOrder(_loggedInUser.Id, orderId);
+                Close();
             }
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            Int32 bucketId = Int32.Parse(_controller.GetBucketId(_loggedInUser.Id));
-            String name = (string)bucketDataGridView.CurrentRow.Cells[0].Value;
-            String brand = (string)bucketDataGridView.CurrentRow.Cells[1].Value;
-            String type = (string)bucketDataGridView.CurrentRow.Cells[2].Value;
-            String condition = (string)bucketDataGridView.CurrentRow.Cells[5].Value;
-            Int32 instrumentId = Int32.Parse(_controller.GetInstrumentId(name, brand, type, condition));
+            if (bucketDataGridView.CurrentRow == null || bucketDataGridView.CurrentRow.Index > bucketDataGridView.RowCount)
+            {
+                return;
+            }
+
+            var bucketId = int.Parse(_controller.GetBucketId(_loggedInUser.Id));
+            var name = bucketDataGridView.CurrentRow.Cells[0].Value.ToString();
+            var brand = bucketDataGridView.CurrentRow.Cells[1].Value.ToString();
+            var type = bucketDataGridView.CurrentRow.Cells[2].Value.ToString();
+            var condition = bucketDataGridView.CurrentRow.Cells[5].Value.ToString();
+            var instrumentId = int.Parse(_controller.GetInstrumentId(name, brand, type, condition));
             _controller.RemoveSelectedInstrumentFromBucket(bucketId, instrumentId);
             RefreshDataGrid();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

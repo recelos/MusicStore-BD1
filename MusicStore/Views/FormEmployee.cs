@@ -32,22 +32,14 @@ namespace MusicStore.Views
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            var correct = int.TryParse(instrumentsDataGridView.SelectedRows[0].Cells[0].Value.ToString(), out int id);
+            if (instrumentsDataGridView.CurrentRow == null || instrumentsDataGridView.CurrentRow.Index >= instrumentsDataGridView.Rows.Count) return;
+            
+            var correct = int.TryParse(instrumentsDataGridView.SelectedRows[0].Cells[0].Value.ToString(), out var id);
             if (correct)
             {
                 _controller.DeleteProduct(id);
             }
             RefreshDataGrid();
-        }
-
-        private void instrumentsDataGridView_SelectionChanged(object sender, EventArgs e)
-        {
-            //DataGridViewRow row = instrumentsDataGridView.SelectedRows[0];
-
-            //_selectedInstrument.Id = int.Parse(row.Cells[0].Value.ToString());
-            //_selectedInstrument.Id = int.Parse(row.Cells[0].Value.ToString());
-
-
         }
         private void RefreshDataGrid()
         {
@@ -63,7 +55,7 @@ namespace MusicStore.Views
             //RefreshDataGrid();
         }
 
-        private void buttonOrder_Click(object sender, EventArgs e)
+        private void ordersButton_Click(object sender, EventArgs e)
         {
             var formOrder = new FormOrders();
             formOrder.ShowDialog(this);

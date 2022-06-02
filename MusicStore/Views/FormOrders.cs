@@ -38,15 +38,23 @@ namespace MusicStore.Views
 
         private void finalizeButton_Click(object sender, EventArgs e)
         {
-            
-            Int32 id = (Int32)ordersDataGridView.CurrentRow.Cells[0].Value;   
+            if(ordersDataGridView.CurrentRow == null) return;
+
+            int id = (int)ordersDataGridView.CurrentRow.Cells[0].Value;   
             _controller.toggleIsCompleted(id);
             RefreshDataGrid();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
+        }
+
+        private void ordersDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var order = (int)ordersDataGridView.Rows[e.RowIndex].Cells[0].Value;
+
+            new FormOrderItems(order).Show();
         }
     }
 }

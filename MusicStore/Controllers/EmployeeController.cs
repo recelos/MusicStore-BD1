@@ -14,13 +14,7 @@ namespace MusicStore.Controllers
 
         public DataTable GetInstruments()
         {
-            var query =
-                "SELECT Instruments.Id ,Instruments.Name, Brands.Name AS Brand, Types.Name AS Type, Price, Countries.CountryCode AS Country, Conditions.Name AS Condition, IsReserved " +
-                "FROM Instruments " +
-                "JOIN Brands ON Instruments.BrandId = Brands.Id " +
-                "JOIN Types ON Instruments.TypeId = Types.Id " +
-                "JOIN Countries ON Instruments.CountryId = Countries.Id " +
-                "JOIN Conditions ON Instruments.ConditionId = Conditions.Id;"; 
+            var query = "SELECT * FROM EmployeeInstrumentView;";
             var adapter = new SqlDataAdapter(query, Connection);
             var output = new DataTable();
             adapter.Fill(output);
@@ -32,9 +26,13 @@ namespace MusicStore.Controllers
             if (productId == null)
                 return;
             
-
-            var query = "DELETE FROM Instruments " +
-                        $"WHERE Id = {productId}";
+            var query =
+                "DELETE FROM OrderItems " +
+                $"WHERE InstrumentId = {productId} " +
+                "DELETE FROM BucketItems " +
+                $"WHERE InstrumentId = {productId} " +
+                "DELETE FROM Instruments " +
+                $"WHERE Id = {productId}";
 
             Connection.Open();
 

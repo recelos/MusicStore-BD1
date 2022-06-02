@@ -62,12 +62,15 @@ namespace MusicStore.Views
             this.ordersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ordersDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.ordersDataGridView.Location = new System.Drawing.Point(18, 10);
+            this.ordersDataGridView.MultiSelect = false;
             this.ordersDataGridView.Name = "ordersDataGridView";
             this.ordersDataGridView.ReadOnly = true;
-            this.ordersDataGridView.RowHeadersWidth = 51;
+            this.ordersDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.ordersDataGridView.RowTemplate.Height = 25;
+            this.ordersDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ordersDataGridView.Size = new System.Drawing.Size(1183, 323);
             this.ordersDataGridView.TabIndex = 16;
+            this.ordersDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ordersDataGridView_CellDoubleClick);
             // 
             // FormOrders
             // 
@@ -80,7 +83,7 @@ namespace MusicStore.Views
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormOrders";
-            this.Text = "FormOrders";
+            this.Text = "All orders";
             ((System.ComponentModel.ISupportInitialize)(this.ordersDataGridView)).EndInit();
             this.ResumeLayout(false);
 

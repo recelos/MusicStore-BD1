@@ -28,10 +28,9 @@ namespace MusicStore.Controllers
 
         public bool AddProduct(InstrumentModel instrument)
         {
-            if (instrument==null)
-            {
+            if (instrument == null)
                 return false;
-            }
+            
 
             var query =
                 "INSERT INTO Instruments(Name, TypeId, BrandId, Price, IsReserved ,CountryId, ConditionId, CreatedAt)" +

@@ -33,7 +33,7 @@ namespace MusicStore.Controllers
             return success;
         }
 
-        public String GetInstrumentId(string name, string brandName, string typeName, string conditionName)
+        public string GetInstrumentId(string name, string brandName, string typeName, string conditionName)
         {
             var query = "SELECT Instruments.Id " +
                         "FROM Instruments " +
@@ -49,7 +49,7 @@ namespace MusicStore.Controllers
 
             myreader = SelectCommand.ExecuteReader();
 
-            String Id = null;
+            string Id = null;
             while (myreader.Read())
             {
                 Id = myreader[0].ToString();
@@ -59,7 +59,7 @@ namespace MusicStore.Controllers
 
         }
 
-        public String GetBucketId(int userId)
+        public string GetBucketId(int userId)
         {
             var query = "SELECT Buckets.Id " +
                         "FROM Buckets " +
@@ -72,7 +72,7 @@ namespace MusicStore.Controllers
 
             myreader = SelectCommand.ExecuteReader();
 
-            String Id = null;
+            string Id = null;
             while (myreader.Read())
             {
                 Id = myreader[0].ToString();
@@ -82,11 +82,29 @@ namespace MusicStore.Controllers
 
         }
 
-        public String GetAdressId(int countryId, string cityName, string streetName, string postalCode, string voivodeship)
+        public string GetAdressId(int countryId, string cityName, string streetName, string postalCode, string voivodeship)
         {
             var query = "SELECT Id " +
-                        "FROM Addresses " +                 
+                        "FROM Addresses " +
                         $"WHERE CountryId = {countryId} AND CityName LIKE '%{cityName}%' AND StreetName LIKE '%{streetName}%' AND PostalCode LIKE '%{postalCode}%' AND Voivodeship LIKE '%{voivodeship}%';";
+
+            var selectCommand = new SqlCommand(query, Connection);
+            Connection.Open();
+
+            var myReader = selectCommand.ExecuteReader();
+
+            string id = null;
+            while (myReader.Read())
+                id = myReader[0].ToString();
+            
+            Connection.Close();
+            return id;
+
+        }
+
+        public int GetLatestOrderId()
+        {
+            var query = "SELECT SCOPE_IDENTITY();";
 
             SqlCommand SelectCommand = new SqlCommand(query, Connection);
             SqlDataReader myreader;
@@ -94,13 +112,13 @@ namespace MusicStore.Controllers
 
             myreader = SelectCommand.ExecuteReader();
 
-            String Id = null;
+            string id = null;
             while (myreader.Read())
             {
-                Id = myreader[0].ToString();
+                id = myreader[0].ToString();
             }
             Connection.Close();
-            return Id;
+            return int.Parse(id);
 
         }
 
@@ -143,56 +161,62 @@ namespace MusicStore.Controllers
             return output;
         }
 
-        public bool CreateOrder(int userId, int addressId)
+        public int CreateOrder(int userId, int addressId)
         {
             var query = "INSERT INTO Orders(UserId, IsCompleted, AddressId, CreatedAt) " +
-                        $"VALUES({userId}, 0, {addressId}, GETDATE());";
+                $"VALUES({userId}, 0, {addressId}, GETDATE()) " +
+                "SELECT SCOPE_IDENTITY();";
 
             Connection.Open();
 
             var cmd = new SqlCommand(query, Connection);
-            var success = true;
             try
             {
-                cmd.ExecuteNonQuery();
+                int orderId = Convert.ToInt32(cmd.ExecuteScalar());
+                Connection.Close();
+                return orderId;
             }
             catch
             {
-                success = false;
+                MessageBox.Show("Cannot get order Id");
             }
             Connection.Close();
-            return success;
+            return 0;
+
         }
 
-        public bool AddProductsFromBucketToOrder(int userId)
+        public int GetNumberOfBucketItems(int userId)
         {
-            /*var query = "USE MusicStore GO " +
-                "DECLARE @i INTEGER; " +
-                "SET @i = (SELECT COUNT(*) FROM BucketItems); " +
-                "SET IDENTITY_INSERT OrderItems ON " +
-                "DROP TABLE IF EXISTS temp " +
-                "WHILE(@i > 0) BEGIN " +
-                "SELECT InstrumentId, Id INTO temp FROM " +
-                "(SELECT TOP 1 BucketItems.InstrumentId, Buckets.UserId FROM BucketItems " +
-                "JOIN Instruments ON " +
-                "BucketItems.InstrumentId = Instruments.Id " +
-                "JOIN Buckets ON " +
-                "Buckets.Id = BucketItems.BucketId " +
-                $"WHERE Buckets.UserId = {userId}) AS from_bucket " +
-                "JOIN " +
-                "(SELECT Orders.Id, Orders.UserId FROM Orders " +
-                $"WHERE Orders.UserId = {userId}) AS to_order " +
-                "ON from_bucket.UserId = to_order.UserId; " +
-                "INSERT INTO OrderItems(OrderId, InstrumentId) " +
-                "VALUES((SELECT temp.Id FROM temp), (SELECT temp.InstrumentId FROM temp)); " +
-                "DELETE FROM BucketItems " +
-                "WHERE InstrumentId = (SELECT temp.InstrumentId FROM temp); " +
-                "DROP TABLE temp; " +
-                "SET @i = @i - 1 " +
-                "END;";*/
+            var query = "SELECT COUNT(*) FROM BucketItems " +
+                "JOIN Buckets ON Buckets.Id = BucketItems.BucketId " +
+                "JOIN Users ON Buckets.UserId = Users.Id " +
+                $"WHERE Users.Id = {userId}";
 
-            var query = "SET IDENTITY_INSERT OrderItems ON " +
+            Connection.Open();
+
+            var cmd = new SqlCommand(query, Connection);
+            try
+            {
+                int number = Convert.ToInt32(cmd.ExecuteScalar());
+                Connection.Close();
+                return number;
+            }
+            catch
+            {
+                MessageBox.Show("Cannot get number of BucketItems");
+            }
+            Connection.Close();
+            return 0;
+
+        }
+
+        public bool AddProductsFromBucketToOrder(int userId, int orderId)
+        {
+            var query = "DECLARE @i INTEGER; " +
+                        $"SET @i = (SELECT COUNT(*) FROM BucketItems JOIN Buckets ON Buckets.Id = BucketItems.BucketId JOIN Users ON Buckets.UserId = Users.Id WHERE Users.Id = {userId}); " +
+                        "SET IDENTITY_INSERT OrderItems ON " +
                         "DROP TABLE IF EXISTS temp " +
+                        "WHILE(@i > 0) BEGIN " +
                         "SELECT InstrumentId, Id INTO temp FROM " +
                         "(SELECT TOP 1 BucketItems.InstrumentId, Buckets.UserId FROM BucketItems " +
                         "JOIN Instruments ON " +
@@ -202,17 +226,16 @@ namespace MusicStore.Controllers
                         $"WHERE Buckets.UserId = {userId}) AS from_bucket " +
                         "JOIN " +
                         "(SELECT Orders.Id, Orders.UserId FROM Orders " +
-                        $"WHERE Orders.UserId = {userId}) AS to_order " +
+                        $"WHERE Orders.Id = {orderId}) AS to_order " +
                         "ON from_bucket.UserId = to_order.UserId; " +
                         "INSERT INTO OrderItems(OrderId, InstrumentId) " +
                         "VALUES((SELECT temp.Id FROM temp), (SELECT temp.InstrumentId FROM temp)); " +
                         "DELETE FROM BucketItems " +
-                        "WHERE InstrumentId = (SELECT temp.InstrumentId FROM temp) " +
+                        "WHERE InstrumentId = (SELECT temp.InstrumentId FROM temp); " +
                         "UPDATE Instruments SET IsReserved = 1, ReservationDate = GETDATE() WHERE Id = (SELECT temp.InstrumentId FROM temp) " +
-                        "DROP TABLE temp;";
-
-
-
+                        "DROP TABLE temp; " +
+                        "SET @i = @i - 1 " +
+                        "END;";
 
             Connection.Open();
 
